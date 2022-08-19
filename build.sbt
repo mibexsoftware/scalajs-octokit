@@ -19,7 +19,6 @@ developers := List(Developer(
 scalaVersion := "2.12.6"
 scalacOptions ++= Seq(
   "-Yrangepos",
-  "-P:scalajs:sjsDefinedByDefault",
   "-language:implicitConversions",
   "-deprecation",
   "-feature",

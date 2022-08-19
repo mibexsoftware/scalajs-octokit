@@ -57,7 +57,7 @@ object Generator {
       methodType.paramTypes.map { case (paramName, param) =>
         val paramValue: String =
           if (param.scalaType.contains('|'))
-            s"js.use(${paramName}).as[js.Any]"
+            s"$paramName.asInstanceOf[js.Any]"
           else paramName
         s"""    "${paramName}" -> ${paramValue},"""
       },
