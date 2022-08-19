@@ -2,7 +2,7 @@ package laughedelic.octokit.rest
 
 import scala.scalajs.js, js.|, js.annotation._
 
-@js.native @JSImport("@octokit/rest", JSImport.Default)
+@js.native @JSImport("@octokit/rest", "Octokit")
 class Octokit(
   options: js.UndefOr[Octokit.Options] = js.undefined
 ) extends js.Object {
