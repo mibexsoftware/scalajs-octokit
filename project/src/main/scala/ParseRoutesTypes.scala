@@ -32,7 +32,7 @@ object Param {
 }
 
 case class ParamType(
-  @upickle.key("type") tpe: String,
+  @upickle.implicits.key("type") tpe: String,
   required: Boolean = false,
   allowNull: Boolean = false,
 ) extends Param {

@@ -3,6 +3,7 @@ package laughedelic.sbt
 import upickle.default.Reader
 import ujson.Js
 import scala.util.Try
+import upickle.default._
 
 package object octokit {
 
@@ -46,10 +47,10 @@ package object octokit {
     import upickle.default._
     reader[Js.Value].map[T] {
       json => Try {
-        readJs[A](json)
+        read[A](json)
       }.recover {
-        case e: ujson.AbortJsonProcessingException =>
-          readJs[B](json)
+        case e: ujson.ParsingFailedException =>
+          read[B](json)
       }.getOrElse {
         sys.error(s"Couldn't parse neither of the alternatives: ${json}")
       }

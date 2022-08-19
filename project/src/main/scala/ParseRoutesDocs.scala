@@ -5,7 +5,7 @@ import upickle.default.{ReadWriter => RW, macroRW}
 import java.io.File
 
 case class MethodDoc(
-  @upickle.key("name") title: String,
+  @upickle.implicits.key("name") title: String,
   description: String = "",
   documentationUrl: String,
   params: List[ParamDoc] = Nil,
