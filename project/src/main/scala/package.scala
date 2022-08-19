@@ -11,9 +11,8 @@ package object octokit {
   type MethodName = String
   type ParamName = String
 
-  type RoutesDocs  = Map[Namespace, Map[MethodName, MethodDoc]]
-  type RoutesTypes = Map[Namespace, Map[MethodName, MethodType]]
-
+  type RoutesTypes = Seq[MethodType]
+  
   type Lines = Seq[String]
 
   implicit class LinesOps(val lines: Lines) extends AnyVal {
@@ -25,6 +24,9 @@ package object octokit {
     case "string" | "boolean" => tpe.capitalize
     case "object" | "any" => s"js.${tpe.capitalize}"
     case "integer" | "number" => "Int"
+    case null => "js.Any"          // fixme: some parameters have no specified type 
+    case "undefined[]" => "js.Any" // fixme: map strange types to any     
+    case "array" => "js.Any"    
     case _ if tpe.contains('|') =>
       tpe.split('|').map(_.trim)
         .map(jsTypeToScala)

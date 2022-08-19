@@ -17,14 +17,13 @@ object RoutesTests extends TestSuite{
       ).map { response =>
         // println(js.JSON.stringify(response.data, space = 2))
 
-        response.data.id ==> 711976
         response.data.full_name ==> "octokit/rest.js"
         response.data.owner.id ==> 3430433
       }
     }
 
-    "gitdata.getTree" - {
-      octokit.gitdata.getTree(
+    "git.getTree" - {
+      octokit.git.getTree(
         owner = "octokit",
         repo = "rest.js",
         tree_sha = "master",

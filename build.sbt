@@ -37,13 +37,19 @@ bintrayPackageLabels := Seq("scalajs", "github", "octokit", "facades")
 
 ghreleaseAssets := Seq()
 
-val octokitV = "15.8.0"
+// val octokitV = "17.11.2"
+// val octokitV = "16.43.1"
+val octokitV = "18.12.0"
+
 lazy val downloadRoutesJson = settingKey[File]("Download routes.json file from the octokit/rest.js repository")
 
 downloadRoutesJson := {
   import sys.process._
   val log = sLog.value
-  val url = s"https://raw.githubusercontent.com/octokit/rest.js/v${octokitV}/lib/routes.json"
+  // val url = s"https://raw.githubusercontent.com/octokit/rest.js/v${octokitV}/scripts/update-endpoints/generated/endpoints.json"                   // v16.43.1 
+  // val url = "https://raw.githubusercontent.com/octokit/plugin-rest-endpoint-methods.js/v3.17.0/scripts/update-endpoints/generated/endpoints.json" // v17.11.2
+  val url = "https://raw.githubusercontent.com/octokit/plugin-rest-endpoint-methods.js/v5.12.0/scripts/update-endpoints/generated/endpoints.json"    // v18.12.0
+
   val file = baseDirectory.value / "routes.json"
   log.info(s"Downloading routes.json v${octokitV} ...")
   val exitCode = (new java.net.URL(url) #> file).!(log)

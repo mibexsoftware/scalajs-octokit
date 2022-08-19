@@ -7,26 +7,6 @@ import scala.collection.JavaConverters._
 
 object Generator {
 
-  def scaladoc(methodDoc: MethodDoc): Lines = {
-    val body = Seq(
-      Seq(""),
-      if (methodDoc.description.isEmpty) Seq() else {
-        methodDoc.description.split('\n').toSeq :+ ""
-      },
-      for {
-        param <- methodDoc.params
-          if param.description.nonEmpty
-      } yield
-        s"@param ${param.name} ${param.description}",
-      Seq("", s"@see [[${methodDoc.documentationUrl}]]"),
-    ).flatten
-    Seq(
-      Seq(s"/** ${methodDoc.title}"),
-      body.prefix("  * "),
-      Seq( "  */"),
-    ).flatten
-  }
-
   // TODO: see https://github.com/octokit/rest.js/pull/732
   private val returnType = "Octokit.AnyResponse"
 
@@ -91,15 +71,15 @@ object Generator {
   ).flatten
 
   def routeObjects(types: RoutesTypes): Lines = {
-    types.toSeq.flatMap { case (namespace, methods) =>
-      Seq(
-        Seq("", s"object ${namespace} {"),
-        methods.toSeq.flatMap { case (methodName, methodType) =>
-          "" +: methodDefinition(namespace, methodName, methodType)
-        }.indent(),
-        Seq("}")
-      ).flatten
-    }
+    types.groupBy(_.scope).toSeq.flatMap { case (namespace, methods) =>
+        Seq(
+          Seq("", s"object ${namespace} {"),
+          methods.map(methodType => {
+            "" +: methodDefinition(namespace, methodType.id, methodType)
+          }).flatten.indent(),
+          Seq("}")
+        ).flatten
+      }
   }
 
   def generateRoutes(routes: RoutesTypes): Lines =
@@ -118,17 +98,17 @@ object Generator {
       }
       case List("types") => {
         val types = for {
-          (nmspcN, nmspc) <- routesTypes.toSeq
-          (methdN, methd) <- nmspc.toSeq
-          (paramN, param) <- methd.paramTypes.toSeq
+          (nmspcN, nmspc) <- routesTypes.groupBy(_.scope).toSeq
+          mtd <- nmspc
+          (paramN, param) <- mtd.paramTypes.toSeq
           if (param.tpe.startsWith("object"))
         } yield {
-          s"${nmspcN}.${methdN}.${paramN}${param.tpe.stripPrefix("object")}"
+          s"${nmspcN}.${mtd.id}.${paramN}${param.tpe.stripPrefix("object")}"
         }
         types.sorted.foreach(println)
       }
       case namespace :: methodName :: _ => {
-        val methodType = routesTypes(namespace)(methodName)
+        val methodType = routesTypes.find(x => x.scope == namespace && x.id == methodName).get
         println(
           methodDefinition(namespace, methodName, methodType).mkString("\n")
         )
