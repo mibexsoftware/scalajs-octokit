@@ -72,7 +72,7 @@ Compile/sourceGenerators += Def.task {
   Seq(out)
 }.taskValue
 
-libraryDependencies += "com.lihaoyi" %%% "utest" % "0.6.3" % Test
+libraryDependencies += "com.lihaoyi" %%% "utest" % "0.8.0" % Test
 testFrameworks += new TestFramework("utest.runner.Framework")
 
 enablePlugins(ScalaJSBundlerPlugin)
