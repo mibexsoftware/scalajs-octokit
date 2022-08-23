@@ -3,7 +3,7 @@ organization := "laughedelic"
 description  := "Scala.js wrapper for the octokit/rest.js library (GitHub REST API)"
 
 homepage := Some(url(s"https://github.com/laughedelic/${name.value}"))
-scmInfo in ThisBuild := Some(ScmInfo(
+ThisBuild / scmInfo := Some(ScmInfo(
   homepage.value.get,
   s"scm:git:git@github.com:laughedelic/${name.value}.git"
 ))
@@ -82,4 +82,4 @@ libraryDependencies += "com.lihaoyi" %%% "utest" % "0.8.0" % Test
 testFrameworks += new TestFramework("utest.runner.Framework")
 
 enablePlugins(ScalaJSBundlerPlugin)
-npmDependencies in Test += "@octokit/rest" -> octokitV
+Test / npmDependencies += "@octokit/rest" -> octokitV
