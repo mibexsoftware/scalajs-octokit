@@ -35,7 +35,7 @@ publishMavenStyle := true
 bintrayReleaseOnPublish := !isSnapshot.value
 bintrayPackageLabels := Seq("scalajs", "github", "octokit", "facades")
 
-ghreleaseAssets := Seq()
+// ghreleaseAssets := Seq()
 
 // val octokitV = "17.11.2"
 // val octokitV = "16.43.1"
