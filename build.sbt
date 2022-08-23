@@ -16,7 +16,7 @@ developers := List(Developer(
   url("https://github.com/laughedelic")
 ))
 
-scalaVersion := "2.12.6"
+scalaVersion := "2.12.16"
 scalacOptions ++= Seq(
   "-Yrangepos",
   "-language:implicitConversions",
