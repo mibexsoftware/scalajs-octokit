@@ -39,10 +39,10 @@ object Generator {
           if (param.scalaType.contains('|'))
             s"$paramName.asInstanceOf[js.Any]"
           else paramName
-        s"""    "${paramName}" -> ${paramValue},"""
+        s"""    "${paramName}" -> ${paramValue}.asInstanceOf[js.Any],"""
       },
       Seq(
-        s"""    "headers" -> headers""",
+        s"""    "headers" -> headers.asInstanceOf[js.Any]""",
          "  )",
         s").asInstanceOf[js.Promise[${returnType}]].toFuture",
       )
